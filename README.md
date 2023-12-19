@@ -2,9 +2,7 @@
 
 ## Introduction
 
-The `FaceMask_Augmentation` tool is designed to help users create and adjust facial masks for image augmentation. It enables interactive marking and adjustment of points on facial images to generate custom masks. After running the `CreateMaskPTS.py` script, you can use the `FaceMasking.py` script to visualize the generated masks on live camera feed.
-
-
+The `FaceMask_Augmentation` tool is designed to help users create and adjust facial masks for image augmentation. It enables interactive marking and adjustment of points on facial images to generate custom masks.
 ## Prerequisites
 
 - Python 3.x
