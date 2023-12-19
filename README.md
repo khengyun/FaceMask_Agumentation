@@ -3,6 +3,12 @@
 ## Introduction
 
 The `FaceMask_Augmentation` tool is designed to help users create and adjust facial masks for image augmentation. It enables interactive marking and adjustment of points on facial images to generate custom masks.
+
+## DEMO
+https://github.com/khengyun/FaceMask_Agumentation/assets/78076796/b1b0eb7c-e489-4fda-9c1e-01b4c403effe
+
+
+
 ## Prerequisites
 
 - Python 3.x
@@ -15,12 +21,6 @@ Install the required dependencies using the following command:
 ```bash
 pip install opencv-python numpy pillow
 ```
-## DEMO
-
-
-https://github.com/khengyun/FaceMask_Agumentation/assets/78076796/b1b0eb7c-e489-4fda-9c1e-01b4c403effe
-
-
 
 
 
