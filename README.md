@@ -15,6 +15,14 @@ Install the required dependencies using the following command:
 ```bash
 pip install opencv-python numpy pillow
 ```
+## DEMO
+
+
+https://github.com/khengyun/FaceMask_Agumentation/assets/78076796/b1b0eb7c-e489-4fda-9c1e-01b4c403effe
+
+
+
+
 
 ## Usage
 1. Clone the Repository:
