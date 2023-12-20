@@ -7,7 +7,7 @@ from Models.mtcnn import MTCNN, extract_face
 class BaseFaceDetector:
     def __init__(self, out_size=160):
         self.out_size = out_size
-        self.shaper = dlib.shape_predictor('Models\models\shape_predictor_68_face_landmarks.dat')
+        self.shaper = dlib.shape_predictor('./Models/models/shape_predictor_68_face_landmarks.dat')
 
     def align_faces(self, image, faces):
         aligned_faces = []
@@ -81,6 +81,8 @@ class MTCNNFaceDetector(BaseFaceDetector):
                 faces = [faces[0]]
 
             aligned_faces, landmarks = self.align_faces(image, faces)
+            print("Number of faces:", len(faces))
+
 
             if return_shape:
                 return aligned_faces, landmarks, pts
