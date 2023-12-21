@@ -5,10 +5,9 @@
 The `FaceMask_Augmentation` tool is designed to help users create and adjust facial masks for image augmentation. It enables interactive marking and adjustment of points on facial images to generate custom masks.
 
 ## DEMO
-<video width="320" height="240" controls muted>
-  <source src="https://github.com/khengyun/FaceMask_Agumentation/assets/78076796/de94f71d-efd5-4b30-afc6-8c0f392bf937" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+
+https://github.com/khengyun/FaceMask_Agumentation/assets/78076796/de94f71d-efd5-4b30-afc6-8c0f392bf937
+
 
 
 
