@@ -5,6 +5,9 @@ import torch
 import torchvision.transforms as transforms
 from FaceDetector import MTCNNFaceDetector  # Import class FaceDetector from module FaceDetector
 
+SHOW_LOG = False
+
+
 class Cropper:
     def __init__(self, landmarks_to_crop):
         self.landmarks_to_crop = landmarks_to_crop
@@ -20,7 +23,8 @@ class Cropper:
                 min_y = min(min_y, y)
                 max_y = max(max_y, y)
             except Exception as e:
-                print(f"Error in cropping: {e}")
+                if SHOW_LOG:
+                    print(f"Error in cropping: {e}")
 
         min_x, max_x, min_y, max_y = int(min_x), int(max_x), int(min_y), int(max_y)
         cropped_image = image[min_y:max_y, min_x:max_x]
@@ -36,7 +40,8 @@ class FaceCropper:
             image = Image.fromarray(image)
             return image
         except Exception as e:
-            print(f"Error in preprocessing image: {e}")
+            if SHOW_LOG:
+                print(f"Error in preprocessing image: {e}")
             return None
 
     def crop_faces_and_concat(self, image, mask):
@@ -76,7 +81,8 @@ class FaceCropper:
                 return resized_image
         except Exception as e:
             faces=self.resize_and_preprocess(Image.fromarray(image))
-            print(f"Error in cropping faces and concatenating: {e}")
+            if SHOW_LOG:
+                print(f"Error in cropping faces and concatenating: {e}")
             return torch.cat([faces,faces], dim=0)
         # finally:
         #     faces=self.resize_and_preprocess(Image.fromarray(image))
@@ -93,8 +99,9 @@ class FaceCropper:
             ])
             return transform(image)
         except Exception as e:
-            print(image.shape)
-            print(f"Error in resizing and preprocessing: {e}")
+            # print(image.shape)
+            if SHOW_LOG:
+                print(f"Error in resizing and preprocessing: {e}")
             return None
 
 class MTCNNFaceDetectorWithCropper(MTCNNFaceDetector):
@@ -112,7 +119,7 @@ class MTCNNFaceDetectorWithCropper(MTCNNFaceDetector):
                     faces = [faces[0]]
 
                 landmarks = self.align_faces(image, faces)[1]
-                print("Number of faces:", len(faces))
+                # print("Number of faces:", len(faces))
 
                 cropped_faces = [self.cropper.crop_by_landmarks(image, landmark) for landmark in landmarks]
 
@@ -120,10 +127,12 @@ class MTCNNFaceDetectorWithCropper(MTCNNFaceDetector):
                     return cropped_faces, landmarks, pts
                 return cropped_faces
             else:
-                print("No faces detected.")
+                if SHOW_LOG:
+                    print("No faces detected.")
                 return None
         except Exception as e:
-            print(f"Error in cropping faces by landmarks: {e}")
+            if SHOW_LOG:
+                print(f"Error in cropping faces by landmarks: {e}")
             return None
 
     def show_cropped_faces(self, image):
@@ -141,7 +150,8 @@ class MTCNNFaceDetectorWithCropper(MTCNNFaceDetector):
                     cv2.imshow(f"Cropped Face {i + 1}", cropped_face)
                 cv2.imshow("MTCNN Cropped Faces", res)
         except Exception as e:
-            print(f"Error in showing cropped faces: {e}")
+            if SHOW_LOG:
+                print(f"Error in showing cropped faces: {e}")
 
 if __name__ == '__main__':
     try:
