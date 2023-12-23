@@ -92,6 +92,7 @@ class FaceCropper:
             ])
             return transform(image)
         except Exception as e:
+            print(image.shape)
             print(f"Error in resizing and preprocessing: {e}")
             return None
 
