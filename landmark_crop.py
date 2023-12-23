@@ -75,8 +75,9 @@ class FaceCropper:
 
                 return resized_image
         except Exception as e:
+            faces=self.resize_and_preprocess(Image.fromarray(image))
             print(f"Error in cropping faces and concatenating: {e}")
-            return None
+            return torch.cat([faces,faces], dim=0)
         # finally:
         #     faces=self.resize_and_preprocess(Image.fromarray(image))
         #     return torch.cat([faces,faces], dim=0)
