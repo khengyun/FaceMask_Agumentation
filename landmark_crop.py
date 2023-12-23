@@ -162,13 +162,10 @@ if __name__ == '__main__':
             reduced_matrix = result[:, :, :3]
 
             if result is not None:
-                # Chuyển đổi ma trận PyTorch thành NumPy
                 result_numpy = result.cpu().detach().numpy()
 
-                # Chọn 3 kênh đầu tiên
                 reduced_matrix = result_numpy[0:3, :, :]
 
-                # Hiển thị ma trận với OpenCV
                 cv2.imshow('Processed Frame', reduced_matrix.transpose(1, 2, 0))
 
             if cv2.waitKey(1) & 0xFF == 27:  # Press 'ESC' to exit
