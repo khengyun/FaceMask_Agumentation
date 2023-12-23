@@ -103,9 +103,13 @@ class MTCNNFaceDetector(BaseFaceDetector):
                 res = cv2.rectangle(res, (rec.left(), rec.top()), (rec.right(), rec.bottom()), (0, 0, 255), 2)
                 
                 # Iterate over the facial landmarks
+                n=0
                 for pt in landmarks_i.parts():
                     res = cv2.circle(res, (pt.x, pt.y), 2, (0, 0, 255), -1)
+                    cv2.putText(res, str(n), (pt.x, pt.y), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255),
+                                1, cv2.LINE_AA)
                     image = res.copy()
+                    n+=1
 
         cv2.imshow("MTCNN Detected Faces", image)
 

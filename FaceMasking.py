@@ -3,6 +3,7 @@ import pickle
 import numpy as np
 from PIL import Image
 import os
+import matplotlib.pyplot as plt
 from FaceDetector import MTCNNFaceDetector
 
 MASK_PTS_FILE = 'mask_pts.pkl'
@@ -83,7 +84,9 @@ class FaceMasker:
         tri_face = self.get_tri_face_points(face_shape)
 
         image_face = Image.fromarray(image)
-        for pts1, pts2 in zip(tri_mask_pts, tri_face):
+        masked_images = []  # Danh sách để lưu trữ các ảnh tam giác đã xử lý
+
+        for idx, (pts1, pts2) in enumerate(zip(tri_mask_pts, tri_face)):
             pts1 = pts1.copy().reshape(3, 2)
             pts2 = pts2.copy().reshape(3, 2)
 
@@ -105,10 +108,17 @@ class FaceMasker:
             warped = cv2.bitwise_and(warped, warped, mask=mask_croped)
 
             warped = Image.fromarray(warped)
-            image_face.paste(warped, (rect2[0], rect2[1]), warped)
+            image_face_copy = image_face.copy()
+            image_face_copy.paste(warped, (rect2[0], rect2[1]), warped)
+            masked_images.append(np.array(image_face_copy))
 
-        return np.array(image_face)
+            # # Hiển thị từng ảnh tam giác
+            # plt.figure()
+            # plt.imshow(masked_images[-1])
+            # plt.title(f'Triangle {idx + 1}')
+            # plt.show()
 
+        return masked_images
 
 class AugmentMasking:
     def __init__(self, mask_chance=0.5, post_augment=None, mask_pts_file=MASK_PTS_FILE):
@@ -143,9 +153,18 @@ if __name__ == '__main__':
         frame = cv2.flip(frame, 1)
 
         faces = detector.get_faces(frame, return_shape=True)
+        detector.show_detected(frame)
         if faces is not None:
             faces, shaped, _ = faces
-            frame = masker.wear_mask_to_face(frame, shaped[0].parts())
+            masked_images = masker.wear_mask_to_face(frame, shaped[0].parts())
+
+            # Hiển thị ảnh gốc
+            cv2.imshow('Original Image', frame)
+
+            for idx, masked_image in enumerate(masked_images):
+                # Hiển thị từng ảnh tam giác đã xử lý sử dụng OpenCV
+                cv2.imshow(f'Masked Image {idx + 1} {masked_image.shape}', masked_image)
+
 
         cv2.imshow('Frame', frame)
         if cv2.waitKey(1) & 0xFF == 27:  # Press 'ESC' to exit
