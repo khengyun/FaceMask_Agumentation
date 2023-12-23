@@ -77,9 +77,9 @@ class FaceCropper:
         except Exception as e:
             print(f"Error in cropping faces and concatenating: {e}")
             return None
-        finally:
-            faces=self.resize_and_preprocess(Image.fromarray(image))
-            return torch.cat([faces,faces], dim=0)
+        # finally:
+        #     faces=self.resize_and_preprocess(Image.fromarray(image))
+        #     return torch.cat([faces,faces], dim=0)
 
     def resize_and_preprocess(self, image):
         try:
@@ -158,9 +158,19 @@ if __name__ == '__main__':
 
             # Process the frame using the FaceCropper class
             result = face_cropper.crop_faces_and_concat(frame, mask)
+            print(result.shape)
+            reduced_matrix = result[:, :, :3]
 
             if result is not None:
-                cv2.imshow('Processed Frame', result.numpy().transpose(1, 2, 0))
+                # Chuyển đổi ma trận PyTorch thành NumPy
+                result_numpy = result.cpu().detach().numpy()
+
+                # Chọn 3 kênh đầu tiên
+                reduced_matrix = result_numpy[0:3, :, :]
+
+                # Hiển thị ma trận với OpenCV
+                cv2.imshow('Processed Frame', reduced_matrix.transpose(1, 2, 0))
+
             if cv2.waitKey(1) & 0xFF == 27:  # Press 'ESC' to exit
                 break
 
